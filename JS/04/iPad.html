@@ -102,14 +102,12 @@
         let _price = document.querySelector("#box_price");
         function findIpadsPrice(){
             _price.innerText = "";
-            console.log(`color: ${_color}, storage: ${_storage}, network: ${_network}`);
             let filterArray = ipadArrya.filter(function(item,index){
                 if(item.color == _color && item.storage == _storage && item.network == _network){
                     _price.innerText = `NT$${item.price}`;
                     document.querySelector("#container_img img").setAttribute("src",`../04/img/${item.picture}`);
                 }
             });
-            console.log(filterArray);
         }
     </script>
 </body>
