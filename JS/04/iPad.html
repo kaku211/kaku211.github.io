@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="../04/style.css">
+</head>
+<body>
+    <div id="container">
+        <div id="container_img">
+            <img src="../04/img/ipad.png" alt="">
+        </div>
+
+        <div id="container_list">
+            <div id="box_h1">
+                <h1>購買iPad Air</h1>
+            </div>
+
+            <div id="box_color">
+                <div id="box_title">
+                    <p>外觀</p>
+                </div>
+                <div id="box_btn">
+                    <button id="color" class="btn btn-outline-secondary" value="太空灰色">太空灰色</button>
+                    <button id="color" class="btn btn-outline-secondary" value="銀色">銀色</button>
+                    <button id="color" class="btn btn-outline-secondary" value="玫瑰金色">玫瑰金色</button>
+                    <button id="color" class="btn btn-outline-secondary" value="綠色">綠色</button>
+                </div>
+            </div>
+
+            <div id="box_storage">
+                <div id="box_title">
+                    <p>儲存裝置</p>
+                </div>
+                <div id="box_btn">
+                    <button id="storage" class="btn btn-outline-secondary" value="64GB">64GB</button>
+                    <button id="storage" class="btn btn-outline-secondary" value="256GB">256GB</button>
+                </div>
+            </div>
+
+            <div id="box_network">
+                <div id="box_title">
+                    <p>連線能力</p>
+                </div>
+                <div id="box_btn">
+                    <button id="network" class="btn btn-outline-secondary" value="Wi-Fi">Wi-Fi</button>
+                    <button id="network" class="btn btn-outline-secondary" value="Cellular">Wi-Fi + 行動網路</button>
+                </div>
+            </div>
+
+            <dvi id="box_price"></dvi>
+        </div>
+    </div>
+
+    <script>
+        window.onload = () => {
+            requestJSON();
+            document.querySelectorAll("#color")[0].addEventListener("click",findColor);
+            document.querySelectorAll("#color")[1].addEventListener("click",findColor);
+            document.querySelectorAll("#color")[2].addEventListener("click",findColor);
+            document.querySelectorAll("#color")[3].addEventListener("click",findColor);
+
+            document.querySelectorAll("#storage")[0].addEventListener("click",findStorage);
+            document.querySelectorAll("#storage")[1].addEventListener("click",findStorage);
+
+            document.querySelectorAll("#network")[0].addEventListener("click",findNetwork);
+            document.querySelectorAll("#network")[1].addEventListener("click",findNetwork);
+        }
+
+        const url = "https://raw.githubusercontent.com/kaku211/FileStorage/main/JSON_iPad.json";
+
+        let ipadArrya = [];
+
+        function requestJSON(){
+            let xhr = new XMLHttpRequest();
+            xhr.onload = function(){
+                ipadArrya = JSON.parse(this.responseText);
+            }
+            xhr.open("GET",url);
+            xhr.send();
+        }
+
+        let _color, _storage, _network;
+        function findColor(event){
+            _color = event.target.value;
+            findIpadsPrice();
+        }
+
+        function findStorage(event){
+            _storage = event.target.value;
+            findIpadsPrice();
+        }
+
+        function findNetwork(){
+            _network = event.target.value;
+            findIpadsPrice();
+        }
+
+        let _price = document.querySelector("#box_price");
+        function findIpadsPrice(){
+            _price.innerText = "";
+            console.log(`color: ${_color}, storage: ${_storage}, network: ${_network}`);
+            let filterArray = ipadArrya.filter(function(item,index){
+                if(item.color == _color && item.storage == _storage && item.network == _network){
+                    _price.innerText = `NT$${item.price}`;
+                    document.querySelector("#container_img img").setAttribute("src",`../04/img/${item.picture}`);
+                }
+            });
+            console.log(filterArray);
+        }
+    </script>
+</body>
+</html>
